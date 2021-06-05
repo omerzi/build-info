@@ -37,7 +37,7 @@ pipelines:
             - export JFROG_CLI_BUILD_NUMBER=$run_number
 
             # Configure git
-            - git checkout master
+            - git checkout b-2.21.3
             - git remote set-url origin https://$int_github_generic_token@github.com/jfrog/build-info.git
 
             # Make sure versions provided
@@ -69,14 +69,6 @@ pipelines:
               ./jfrog rt gradle clean aP -x test -Psign
             - ./jfrog rt bag
             - ./jfrog rt bp
-
-            # Publish to Maven Central
-            - >
-              ORG_GRADLE_PROJECT_sonatypeUsername=$int_mvn_central_user
-              ORG_GRADLE_PROJECT_sonatypePassword=$int_mvn_central_password
-              ORG_GRADLE_PROJECT_signingKey=$(echo $int_mvn_central_signingKey | base64 -d)
-              ORG_GRADLE_PROJECT_signingPassword=$int_mvn_central_signingPassword
-              ./gradlew clean build publishToSonatype closeAndReleaseSonatypeStagingRepository -x test -Psign
 
             # Update next development version
             - sed -i -e "/build-info-version=/ s/=.*/=$NEXT_DEVELOPMENT_VERSION/" -e "/build-info-extractor-gradle-version=/ s/=.*/=$NEXT_GRADLE_DEVELOPMENT_VERSION/" gradle.properties
