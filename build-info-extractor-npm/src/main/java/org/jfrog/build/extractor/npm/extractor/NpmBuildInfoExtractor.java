@@ -1,5 +1,6 @@
 package org.jfrog.build.extractor.npm.extractor;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -147,6 +148,7 @@ public class NpmBuildInfoExtractor implements BuildInfoExtractor<NpmProject> {
 
         // Save npm config list results
         ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         JsonNode manifestTree = mapper.readTree(configList);
         manifestTree.fields().forEachRemaining(entry -> npmrcProperties.setProperty(entry.getKey(), entry.getValue().asText()));
         // Since we run the get config cmd with "--json" flag, we don't want to force the json output on the new npmrc we write.

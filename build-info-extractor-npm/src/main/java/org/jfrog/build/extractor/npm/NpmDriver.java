@@ -1,5 +1,6 @@
 package org.jfrog.build.extractor.npm;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -22,7 +23,7 @@ import java.util.stream.Stream;
 public class NpmDriver implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private static ObjectReader jsonReader = new ObjectMapper().reader();
+    private static ObjectReader jsonReader = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).reader();
     private CommandExecutor commandExecutor;
 
     public NpmDriver(Map<String, String> env) {

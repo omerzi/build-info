@@ -1,5 +1,6 @@
 package org.jfrog.build.extractor.go.extractor;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ArrayListMultimap;
 import org.apache.commons.compress.archivers.zip.ZipFile;
@@ -146,6 +147,7 @@ public class GoPublish extends GoCommand {
     private File writeInfoFile(String localInfoPath) throws IOException {
         File infoFile = new File(localInfoPath);
         ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         Map<String, String> infoMap = new HashMap();
         Date date = new Date();
         Instant instant = date.toInstant();

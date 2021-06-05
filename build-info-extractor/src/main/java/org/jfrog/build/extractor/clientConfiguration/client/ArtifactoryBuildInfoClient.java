@@ -19,6 +19,7 @@ package org.jfrog.build.extractor.clientConfiguration.client;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
@@ -584,6 +585,7 @@ public class ArtifactoryBuildInfoClient extends ArtifactoryBaseClient implements
 
     private Build getBuildFromJson(String buildInfoJson) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         JsonNode actualObj = mapper.readTree(buildInfoJson);
         return mapper.readValue(actualObj.get("buildInfo").toString(), Build.class);
     }

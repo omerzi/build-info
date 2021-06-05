@@ -1,6 +1,7 @@
 package org.jfrog.build.extractor.clientConfiguration.deploy;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.jfrog.build.client.DeployableArtifactDetail;
@@ -31,6 +32,7 @@ public class DeployableArtifactsUtils {
         deployableArtifactsByModule.forEach((module, deployableArtifacts) ->
                 deployableArtifactsDetails.put(module, DeployableArtifactsUtils.getDeployableArtifactsPaths(deployableArtifacts)));
         ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.writeValue(toFile, deployableArtifactsDetails);
     }
 
@@ -43,6 +45,7 @@ public class DeployableArtifactsUtils {
         deployableArtifactsByModule.forEach((module, deployableArtifacts) ->
             deployableArtifactsList.addAll(DeployableArtifactsUtils.getDeployableArtifactsPaths(deployableArtifacts)));
         ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.writeValue(toFile, deployableArtifactsList);
     }
 
@@ -60,6 +63,7 @@ public class DeployableArtifactsUtils {
             return new HashMap<>();
         }
         ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         return mapper.readValue(fromFile, new TypeReference<Map<String, List<DeployableArtifactDetail>>>(){});
     }
 
@@ -72,6 +76,7 @@ public class DeployableArtifactsUtils {
             return new HashMap<>();
         }
         ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         List<DeployableArtifactDetail> backwardCompatibleList = mapper.readValue(fromFile, new TypeReference<List<DeployableArtifactDetail>>(){});
         // Convert to map
         Map<String, List<DeployableArtifactDetail>> deployableArtifactMap = new HashMap<>();

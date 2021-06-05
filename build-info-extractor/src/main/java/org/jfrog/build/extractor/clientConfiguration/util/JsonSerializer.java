@@ -19,6 +19,7 @@ package org.jfrog.build.extractor.clientConfiguration.util;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 
@@ -34,6 +35,7 @@ public class JsonSerializer<T> {
     public String toJSON(T object) throws IOException {
         JsonFactory jsonFactory = new JsonFactory();
         ObjectMapper mapper = new ObjectMapper(jsonFactory);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         mapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector());
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);

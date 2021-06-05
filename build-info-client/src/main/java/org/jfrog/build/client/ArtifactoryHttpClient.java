@@ -19,6 +19,7 @@ package org.jfrog.build.client;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
@@ -232,6 +233,7 @@ public class ArtifactoryHttpClient implements AutoCloseable {
     public JsonFactory createJsonFactory() {
         JsonFactory jsonFactory = new JsonFactory();
         ObjectMapper mapper = new ObjectMapper(jsonFactory);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector());
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         jsonFactory.setCodec(mapper);

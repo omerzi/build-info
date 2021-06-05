@@ -1,6 +1,7 @@
 package org.jfrog.build.extractor.buildScanTable;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jfrog.build.api.util.Log;
 import org.jfrog.build.client.artifactoryXrayResponse.ArtifactoryXrayResponse;
@@ -47,6 +48,7 @@ public class BuildScanTableHelperTest {
     private ArtifactoryXrayResponse getXrayResultResource() throws URISyntaxException, IOException {
         File testResourcesPath = new File(this.getClass().getResource(BASE_CONFIG_PATH).toURI()).getCanonicalFile();
         ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         return mapper.readValue(testResourcesPath, ArtifactoryXrayResponse.class);
     }
 
