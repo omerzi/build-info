@@ -1,0 +1,12 @@
+- params:
+    git:
+      repoName: build-info
+      branches:
+        - "master"
+    scan:
+      projects:
+        - useWrapper: true
+          repository: cli-mvn-remote-1673961361
+          workingDirs:
+            - .
+            - build-info-parent
