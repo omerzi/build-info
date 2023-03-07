@@ -37,6 +37,9 @@ jobs:
           # The GitHub token automatically generated for the job
           JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+          JF_GIT_PROVIDER: github
+          JF_GIT_OWNER: omerzi
+
           # Uncomment the below options if you'd like to use them.
 
           # [Optional, default: https://api.github.com]
